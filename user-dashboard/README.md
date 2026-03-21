@@ -30,20 +30,20 @@ A responsive frontend application built using React and Vite that displays user 
 git clone https://github.com/ishitaa21/user-directory-dashboard.git
 cd user-directory-dashboard
 
-# 2. Install dependencies
+## 2. Install dependencies
 
 npm install
 
-# 3. Start the development server
+## 3. Start the development server
 npm run dev
 
-# 4. The app will run at 
+## 4. The app will run at 
 http://localhost:5173
 
 # Optimizations & Notes
 
-Implemented client-side search and sorting for performance
-Used React Router for navigation
-Optimized user detail page by passing state to avoid redundant API calls
-Fallback API call ensures direct URL access works correctly
-Designed a responsive UI with reusable components
+- Implemented client-side search and sorting for performance
+- Used React Router for navigation
+- Optimized user detail page by passing state to avoid redundant API calls
+- Fallback API call ensures direct URL access works correctly
+- Designed a responsive UI with reusable components
