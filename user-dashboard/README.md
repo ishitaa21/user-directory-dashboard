@@ -47,3 +47,11 @@ http://localhost:5173
 - Optimized user detail page by passing state to avoid redundant API calls
 - Fallback API call ensures direct URL access works correctly
 - Designed a responsive UI with reusable components
+
+# Live Demo
+https://user-directory-dashboard-5r5z.vercel.app/
+
+# Author
+## ISHITA SARKAR
+
+
