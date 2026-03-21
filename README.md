@@ -41,8 +41,12 @@ npm install
 
 npm run dev
 
-## 4. The app will run at 
+## 4. The app will run at, ctrl+click on the link
 http://localhost:5173
+
+## The screenshot of terminal for the steps mentioned above
+
+![WhatsApp Image 2026-03-21 at 10 59 46 PM](https://github.com/user-attachments/assets/cf7dabf5-f619-445a-9b4a-176fb987b865)
 
 # Optimizations & Notes
 
