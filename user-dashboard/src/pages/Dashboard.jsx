@@ -30,23 +30,33 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log(" Fetch started");
-        setLoading(true);
-    
-        const data = await fetchWithTimeout(getUsers(), 5000);
-        setUsers(data);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
 
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      
+      const data = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const res = await fetchWithTimeout(getUsers(), 5000);
+            resolve(res);
+          } catch (err) {
+            reject(err);
+          }
+        }, 3000); // 👈 3 sec visible spinner
+      });
 
-    fetchData();
-  }, []);
+      setUsers(data);
+
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
 
   const filteredUsers = users.filter(
     (user) =>
@@ -65,57 +75,60 @@ function Dashboard() {
       : fieldB.localeCompare(fieldA);
   });
 
-  //  spinner UI
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-  //       <div className="loader"></div>
-  //     </div>
-  //   );
-  // }
+   // spinner UI
+ 
 
-  //return (
-    //<div className="min-h-screen bg-gray-100 p-6">
-      //<div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow">
-//
-  //       <h1 className="text-3xl font-bold mb-6 text-black">
-  //         User Directory
-  //       </h1>
 
-  //       <SearchBar search={search} setSearch={setSearch} />
+    if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="loader"></div>
+    </div>
+  );
+}
 
-  //       <div className="flex gap-3 my-4 flex-wrap">
-  //         <button
-  //           onClick={() => setSortField("name")}
-  //           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-  //         >
-  //           Sort by Name
-  //         </button>
+  return (
+  <div className="min-h-screen bg-gray-100 p-6">
+    <div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow">
 
-  //         <button
-  //           onClick={() => setSortField("company")}
-  //           className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-  //         >
-  //           Sort by Company
-  //         </button>
+      <h1 className="text-3xl font-bold mb-6 text-black">
+        User Directory
+      </h1>
 
-  //         <button
-  //           onClick={() =>
-  //             setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-  //           }
-  //           className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
-  //         >
-  //           {sortOrder === "asc" ? "Ascending" : "Descending"}
-  //         </button>
-  //       </div>
+      <SearchBar search={search} setSearch={setSearch} />
 
-  //       <div className="mt-4">
-  //         <UserTable users={sortedUsers} />
-  //       </div>
+      <div className="flex gap-3 my-4 flex-wrap">
+        <button
+          onClick={() => setSortField("name")}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        >
+          Sort by Name
+        </button>
 
-  //     </div>
-  //   </div>
-  // );
+        <button
+          onClick={() => setSortField("company")}
+          className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+        >
+          Sort by Company
+        </button>
+
+        <button
+          onClick={() =>
+            setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+          }
+          className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
+        >
+          {sortOrder === "asc" ? "Ascending" : "Descending"}
+        </button>
+      </div>
+
+      <div className="mt-4">
+        <UserTable users={sortedUsers} />
+      </div>
+
+    </div>
+  </div>
+);
 }
 
 export default Dashboard;
