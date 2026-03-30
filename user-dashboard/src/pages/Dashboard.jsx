@@ -10,6 +10,23 @@ function Dashboard() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
 
+const fetchWithTimeout = (promise, timeout = 5000) => {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error("Request timed out"));
+    }, timeout);
+
+    promise
+      .then((res) => {
+        clearTimeout(timer);
+        resolve(res);
+      })
+      .catch((err) => {
+        clearTimeout(timer);
+        reject(err);
+      });
+  });
+};
 
 
   useEffect(() => {
@@ -17,9 +34,11 @@ function Dashboard() {
     try {
       setLoading(true);
 
-      const data = await getUsers();
+      const data = await fetchWithTimeout(getUsers(), 5000); 
       setUsers(data);
 
+    } catch (error) {
+      console.error(error.message); // "Request timed out" or API error
     } finally {
       setLoading(false);
     }
