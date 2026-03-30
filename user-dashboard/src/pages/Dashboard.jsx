@@ -8,14 +8,25 @@ function Dashboard() {
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
       const data = await getUsers();
       setUsers(data);
-    };
-    fetchData();
-  }, []);
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
 
   const filteredUsers = users.filter(
     (user) =>
@@ -34,6 +45,13 @@ function Dashboard() {
       : fieldB.localeCompare(fieldA);
   });
 
+  if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="loader"></div>
+    </div>
+  );
+}
   return (
   <div className="min-h-screen bg-gray-100 p-6">
     <div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow">
