@@ -10,42 +10,43 @@ function Dashboard() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
 
-const fetchWithTimeout = (promise, timeout = 5000) => {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(new Error("Request timed out"));
-    }, timeout);
+  // ✅ timeout wrapper
+  const fetchWithTimeout = (promise, timeout = 5000) => {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new Error("Request timed out"));
+      }, timeout);
 
-    promise
-      .then((res) => {
-        clearTimeout(timer);
-        resolve(res);
-      })
-      .catch((err) => {
-        clearTimeout(timer);
-        reject(err);
-      });
-  });
-};
-
-
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      const data = await fetchWithTimeout(getUsers(), 5000); 
-      setUsers(data);
-
-    } catch (error) {
-      console.error(error.message); // "Request timed out" or API error
-    } finally {
-      setLoading(false);
-    }
+      promise
+        .then((res) => {
+          clearTimeout(timer);
+          resolve(res);
+        })
+        .catch((err) => {
+          clearTimeout(timer);
+          reject(err);
+        });
+    });
   };
 
-  fetchData();
-}, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(" Fetch started");
+        setLoading(true);
+    
+        const data = await fetchWithTimeout(getUsers(), 5000);
+        setUsers(data);
+
+      } catch (error) {
+        console.error(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const filteredUsers = users.filter(
     (user) =>
@@ -64,55 +65,57 @@ const fetchWithTimeout = (promise, timeout = 5000) => {
       : fieldB.localeCompare(fieldA);
   });
 
-  if (loading) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="loader"></div>
-    </div>
-  );
-}
-  return (
-  <div className="min-h-screen bg-gray-100 p-6">
-    <div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow">
+  //  spinner UI
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+  //       <div className="loader"></div>
+  //     </div>
+  //   );
+  // }
 
-      <h1 className="text-3xl font-bold mb-6 text-black">
-        User Directory
-      </h1>
+  //return (
+    //<div className="min-h-screen bg-gray-100 p-6">
+      //<div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow">
+//
+  //       <h1 className="text-3xl font-bold mb-6 text-black">
+  //         User Directory
+  //       </h1>
 
-      <SearchBar search={search} setSearch={setSearch} />
+  //       <SearchBar search={search} setSearch={setSearch} />
 
-      <div className="flex gap-3 my-4 flex-wrap">
-        <button
-          onClick={() => setSortField("name")}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-        >
-          Sort by Name
-        </button>
+  //       <div className="flex gap-3 my-4 flex-wrap">
+  //         <button
+  //           onClick={() => setSortField("name")}
+  //           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+  //         >
+  //           Sort by Name
+  //         </button>
 
-        <button
-          onClick={() => setSortField("company")}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-        >
-          Sort by Company
-        </button>
+  //         <button
+  //           onClick={() => setSortField("company")}
+  //           className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+  //         >
+  //           Sort by Company
+  //         </button>
 
-        <button
-          onClick={() =>
-            setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-          }
-          className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
-        >
-          {sortOrder === "asc" ? "Ascending" : "Descending"}
-        </button>
-      </div>
+  //         <button
+  //           onClick={() =>
+  //             setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+  //           }
+  //           className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
+  //         >
+  //           {sortOrder === "asc" ? "Ascending" : "Descending"}
+  //         </button>
+  //       </div>
 
-      <div className="mt-4">
-        <UserTable users={sortedUsers} />
-      </div>
+  //       <div className="mt-4">
+  //         <UserTable users={sortedUsers} />
+  //       </div>
 
-    </div>
-  </div>
-);
+  //     </div>
+  //   </div>
+  // );
 }
 
 export default Dashboard;
