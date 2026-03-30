@@ -25,9 +25,10 @@ A responsive frontend application built using React and Vite that displays user 
 
 #  Setup & Run Instructions
 
-## 1. Clone the repository
-
 Right-click on your Start button and select Terminal
+and now copy the below commands one by one
+
+## 1. Clone the repository
 
 - git clone https://github.com/ishitaa21/user-directory-dashboard.git
 - cd user-directory-dashboard/user-dashboard
@@ -40,8 +41,12 @@ npm install
 
 npm run dev
 
-## 4. The app will run at 
+## 4. The app will run at, ctrl+click on the link
 http://localhost:5173
+
+## The screenshot of terminal for the steps mentioned above
+
+![WhatsApp Image 2026-03-21 at 10 59 46 PM](https://github.com/user-attachments/assets/cf7dabf5-f619-445a-9b4a-176fb987b865)
 
 # Optimizations & Notes
 
